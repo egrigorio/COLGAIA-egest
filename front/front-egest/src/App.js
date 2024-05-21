@@ -7,7 +7,7 @@ import Cookies from 'js-cookie';
 import './App.css';
 
 function App() {
-  const authToken = Cookies.get('authToken');    
+  const authToken = Cookies.get('authToken');
   return (
     <BrowserRouter>
       <Routes>
