@@ -59,18 +59,19 @@ const Form = (props) => {
             setData(null);
         }
     }, [props.id]);
+    console.log(data)
 
     return (
         <div>
             <form onSubmit={props.id ? handleEdit : handleSubmit}>
-                <input type="text" name="nome" id="nome" placeholder="nome" defaultValue={data ? data.nome : ''} />
-                <input type="text" name="nif" id="nif" placeholder="nif" defaultValue={data ? data.nif : ''} />
-                <input type="text" name="cc" id="cc" placeholder="cc" defaultValue={data ? data.cc : ''} />
-                <input type="date" name="dataNascimento" id="dataNascimento" placeholder="dataNascimento" defaultValue={data ? data.dataNascimento : ''} />
-                <input type="date" name="entradaEmpresa" id="entradaEmpresa" placeholder="entradaEmpresa" defaultValue={data ? data.entradaEmpresa : ''} />
-                <input type="text" name="salario" id="salario" placeholder="salario" defaultValue={data ? data.salario : ''} />
-                <input type="text" name="genero" id="genero" placeholder="genero" defaultValue={data ? data.genero : ''} />
-                <input type="text" name="area" id="area" placeholder="area" defaultValue={data ? data.area : ''} />
+                <input type="text" name="nome" id="nome" placeholder="nome" defaultValue={data ? data[0].nome : ''} />
+                <input type="text" name="nif" id="nif" placeholder="nif" defaultValue={data ? data[0].nif : ''} />
+                <input type="text" name="cc" id="cc" placeholder="cc" defaultValue={data ? data[0].cc : ''} />
+                <input type="date" name="dataNascimento" id="dataNascimento" placeholder="dataNascimento" defaultValue={data ? data[0].dataNascimento : ''} />
+                <input type="date" name="entradaEmpresa" id="entradaEmpresa" placeholder="entradaEmpresa" defaultValue={data ? data[0].entradaEmpresa : ''} />
+                <input type="text" name="salario" id="salario" placeholder="salario" defaultValue={data ? data[0].salario : ''} />
+                <input type="text" name="genero" id="genero" placeholder="genero" defaultValue={data ? data[0].genero : ''} />
+                <input type="text" name="area" id="area" placeholder="area" defaultValue={data ? data[0].area : ''} />
                 <input type="submit" value="submit" />
             </form>
         </div>

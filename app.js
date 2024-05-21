@@ -12,7 +12,7 @@ const funcionarioRoute = require('./routes/funcionario.route');
 conn();
 
 app.use(cors({
-  origin: 'http://localhost:3001',
+  origin: ['http://localhost:3001', 'http://localhost:3000'],
   credentials: true
 }));
 app.use(cookieParser());
