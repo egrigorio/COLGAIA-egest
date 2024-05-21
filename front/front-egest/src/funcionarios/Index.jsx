@@ -33,10 +33,11 @@ const Funcionarios = () => {
     
     return (
         <>
-            <table>
+            <h1>Funcionários</h1>
+            <table className="table table-bordered w-50">
                 <thead>
                     {dadosFuncionarios && Object.keys(dadosFuncionarios[0]).map(key => (
-                        camposEscondidos.includes(key) ? null : <th key={key}>{trataCampos(trataCampos(key, 'm'), 'l')}</th>                        
+                        camposEscondidos.includes(key) ? null : <th scope="col" key={key}>{trataCampos(trataCampos(key, 'm'), 'l')}</th>                        
                     ))}
                 </thead>
                 <tbody>
@@ -50,11 +51,8 @@ const Funcionarios = () => {
                         </tr>
                     )) : null}
                 </tbody>
-            </table>
-            <h1>Funcionários</h1>
-            <a href="?acao=adicionar">
-                <button>Adicionar</button>
-            </a>            
+            </table> 
+            <button href='?acao=adicionar' variant="primary" size='lg'>Adicionar</button>
         </>
         
     );
