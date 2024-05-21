@@ -44,6 +44,7 @@ const Funcionarios = () => {
     return (
         <>  
             <h1>Funcionários</h1>
+<<<<<<< Updated upstream
             {dadosFuncionarios ?             
                 <table>
                     <thead>
@@ -69,6 +70,27 @@ const Funcionarios = () => {
             <a href="?acao=adicionar">
                 <button>Adicionar</button>
             </a>            
+=======
+            <table className="table table-bordered w-50">
+                <thead>
+                    {dadosFuncionarios && Object.keys(dadosFuncionarios[0]).map(key => (
+                        camposEscondidos.includes(key) ? null : <th scope="col" key={key}>{trataCampos(trataCampos(key, 'm'), 'l')}</th>                        
+                    ))}
+                </thead>
+                <tbody>
+                    {dadosFuncionarios ? dadosFuncionarios.map(funcionario => (
+                        <tr key={funcionario._id}>
+                            {Object.keys(funcionario).map(key => (
+                                camposEscondidos.includes(key) ? null : <td key={key}>{funcionario[key]}</td>
+                            ))}
+                            <td><a href={"?acao=editar&id=" + funcionario._id}>Editar</a></td>
+                            <td><a >Remover</a></td>
+                        </tr>
+                    )) : null}
+                </tbody>
+            </table> 
+            <button href='?acao=adicionar' size='lg'>Adicionar</button>
+>>>>>>> Stashed changes
         </>
         
     );
