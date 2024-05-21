@@ -27,6 +27,7 @@ const handleEdit = async (e) => {
     },
     { withCredentials: true });
     console.log(response);
+    window.location.href = '/funcionarios';
 };
 
 const handleSubmit = async (e) => {
@@ -43,6 +44,7 @@ const handleSubmit = async (e) => {
     },
     { withCredentials: true });
     console.log(response);
+    window.location.href = '/funcionarios';
 };
 
 const Form = (props) => {
