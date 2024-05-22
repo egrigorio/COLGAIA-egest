@@ -11,12 +11,12 @@ router.post('/funcionario', async (req, res) => {
             return res.status(400).send('data inválida');
         }
         const funcionario = new Funcionario({ nome, nif, cc, dataNascimento, entradaEmpresa, salario, genero, area });         
-        if(!funcionario.validarNif(nif)) {
+        /* if(!funcionario.validarNif(nif)) {
             return res.status(400).send('nif inválido');
         }
         if(!funcionario.validarCC(cc)) {
             return res.status(400).send('cc inválido');
-        }
+        } */
         await funcionario.save();
         res.status(201).send(funcionario);
     } catch (error) {

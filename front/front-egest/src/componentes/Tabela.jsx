@@ -3,7 +3,7 @@ import Form from './Form';
 import api from '../api/api';
 import Navbar from '../navbar/Index';
 
-const Funcionarios = () => {
+const TabelaGenerica = () => {
     const [ dadosFuncionarios, setDadosFuncionarios ] = useState(null);
     const camposEscondidos = ['_id', '__v']; /* campos que vem da db e não desejamos mostrar na tabela */
     const params = new URLSearchParams(window.location.search);

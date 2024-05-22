@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './auth/Login';
 import Home from './home/Index';
+import Utilizadores from './utilizadores/Index';
 import Registar from './auth/Registar';
 import Funcionarios from './funcionarios/Index';
 import Cookies from 'js-cookie';
@@ -15,6 +16,7 @@ function App() {
         <Route path="/registar" element={authToken ? <Navigate to="/" /> : <Registar />} />
         <Route path="/" element={authToken ? <Home /> : <Navigate to="/login" />} />
         <Route path="/funcionarios" element={authToken ? <Funcionarios /> : <Navigate to="/login" />} />
+        <Route path="/utilizadores" element={authToken ? <Utilizadores /> : <Navigate to="/login" />} />
         
       </Routes>
     </BrowserRouter>
