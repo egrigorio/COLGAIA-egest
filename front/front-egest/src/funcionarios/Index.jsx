@@ -43,54 +43,32 @@ const Funcionarios = () => {
     
     return (
         <>  
-            <h1>Funcionários</h1>
-<<<<<<< Updated upstream
-            {dadosFuncionarios ?             
-                <table>
+            
+        <div className="row justify-content-center">
+                <h1 className='text-center mb-5 mt-3'>Funcionários</h1>
+                <table className="table table-bordered w-50">
                     <thead>
-                        {dadosFuncionarios && dadosFuncionarios[0] && Object.keys(dadosFuncionarios[0]).map(key => (
-                            camposEscondidos.includes(key) ? null : <th key={key}>{trataCampos(trataCampos(key, 'm'), 'l')}</th>                        
+                        {dadosFuncionarios && Object.keys(dadosFuncionarios[0]).map(key => (
+                            camposEscondidos.includes(key) ? null : <th scope="col" key={key}>{trataCampos(trataCampos(key, 'm'), 'l')}</th>                        
                         ))}
+                        <th scope="col"></th>
+                        <th scope="col"></th>
                     </thead>
                     <tbody>
-                        {dadosFuncionarios.map(funcionario => (
+                        {dadosFuncionarios ? dadosFuncionarios.map(funcionario => (
                             <tr key={funcionario._id}>
                                 {Object.keys(funcionario).map(key => (
                                     camposEscondidos.includes(key) ? null : <td key={key}>{funcionario[key]}</td>
                                 ))}
                                 <td><a href={"?acao=editar&id=" + funcionario._id}>Editar</a></td>
-                                <td><a href={"?acao=remover&id=" + funcionario._id}>Remover</a></td>
+                                <td><a >Remover</a></td>
                             </tr>
-                        ))}
+                        )) : null}
                     </tbody>
-                </table>
-                : 
-                <h1>Não existem funcionários</h1>
-            }            
-            <a href="?acao=adicionar">
-                <button>Adicionar</button>
-            </a>            
-=======
-            <table className="table table-bordered w-50">
-                <thead>
-                    {dadosFuncionarios && Object.keys(dadosFuncionarios[0]).map(key => (
-                        camposEscondidos.includes(key) ? null : <th scope="col" key={key}>{trataCampos(trataCampos(key, 'm'), 'l')}</th>                        
-                    ))}
-                </thead>
-                <tbody>
-                    {dadosFuncionarios ? dadosFuncionarios.map(funcionario => (
-                        <tr key={funcionario._id}>
-                            {Object.keys(funcionario).map(key => (
-                                camposEscondidos.includes(key) ? null : <td key={key}>{funcionario[key]}</td>
-                            ))}
-                            <td><a href={"?acao=editar&id=" + funcionario._id}>Editar</a></td>
-                            <td><a >Remover</a></td>
-                        </tr>
-                    )) : null}
-                </tbody>
-            </table> 
-            <button href='?acao=adicionar' size='lg'>Adicionar</button>
->>>>>>> Stashed changes
+                </table> 
+            </div>
+            {/* Criar Nova componente para os Botões */}
+            <a class="btn btn-primary" href="?acao=adicionar">Adicionar</a>
         </>
         
     );
