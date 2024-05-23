@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import Navbar from '../navbar/Index';
-import 'chart.js/auto';
-import { AreaChart, Area, ResponsiveContainer, XAxis, YAxis, CartesianGrid } from 'recharts';
+/* import 'chart.js/auto'; */
+/* import { AreaChart, Area, ResponsiveContainer, XAxis, YAxis, CartesianGrid } from 'recharts'; */
 
 
 const Index = () => {
