@@ -5,9 +5,13 @@ const handleSubmit = async (e) => {
     e.preventDefault();
     const username = e.target.username.value;
     const password = e.target.password.value;
-    const response = await api.post('/login', {username, password}, {withCredentials: true});    
-    console.log(response);    
-    
+    try {
+      const response = await api.post('/login', {username, password}, {withCredentials: true});
+      console.log(response.status);
+      if (response.status === 200) window.location.href = '/';
+    } catch (error) {
+      if (error.response.status === 404) alert('user não encontrado');
+    }
 };
 
 const Login = () => {
