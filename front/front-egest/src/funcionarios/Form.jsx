@@ -15,7 +15,8 @@ const exampleData = {
 
 const handleEdit = async (e) => {
     e.preventDefault();
-    const response = await api.put('/funcionario', {
+    
+    const response = await api.put('/funcionario/' + e.target.id.value, {
         nome: e.target.nome.value,
         nif: e.target.nif.value,
         cc: e.target.cc.value,
@@ -48,6 +49,7 @@ const handleSubmit = async (e) => {
 };
 
 const Form = (props) => {
+    
     const [data, setData] = useState(null);
 
     useEffect(() => {
@@ -66,6 +68,7 @@ const Form = (props) => {
     return (
         <div>
             <form onSubmit={props.id ? handleEdit : handleSubmit}>
+                <input type="hidden" name="id" id="id" defaultValue={data ? data[0]._id : ''} />
                 <input type="text" name="nome" id="nome" placeholder="nome" defaultValue={data ? data[0].nome : ''} />
                 <input type="text" name="nif" id="nif" placeholder="nif" defaultValue={data ? data[0].nif : ''} />
                 <input type="text" name="cc" id="cc" placeholder="cc" defaultValue={data ? data[0].cc : ''} />

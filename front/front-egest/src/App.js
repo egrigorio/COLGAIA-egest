@@ -16,7 +16,8 @@ function App() {
         <Route path="/registar" element={authToken ? <Navigate to="/" /> : <Registar />} />
         <Route path="/" element={authToken ? <Home /> : <Navigate to="/login" />} />
         <Route path="/funcionarios" element={authToken ? <Funcionarios /> : <Navigate to="/login" />} />
-        <Route path="/utilizadores" element={authToken ? <Utilizadores /> : <Navigate to="/login" />} />
+        <Route path="/funcionarios/:acao/:id?" element={authToken ? <Funcionarios /> : <Navigate to="/login" />} />
+        
         
       </Routes>
     </BrowserRouter>
