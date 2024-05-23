@@ -47,7 +47,7 @@ const Funcionarios = () => {
     
     return (
         <>  
- {dadosFuncionarios ?          
+ 
             
         <div className="row justify-content-center">
                 <h1 className='text-center mb-5 mt-3'>Funcionários</h1>
