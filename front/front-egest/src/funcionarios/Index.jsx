@@ -67,7 +67,7 @@ const Funcionarios = () => {
                                     camposEscondidos.includes(key) ? null : <td key={key}>{funcionario[key]}</td>
                                 ))}
                                 <td><a href={"/funcionarios/editar/" + funcionario._id}>Editar</a></td>
-                                <td><a onClick={apagarFuncionario(funcionario._id)}>Remover</a></td>
+                                <td><a onClick={()=>apagarFuncionario(funcionario._id)}>Remover</a></td>
                             </tr>
                         )) : <tr><td>Sem dados</td></tr> : null}
                     </tbody>
