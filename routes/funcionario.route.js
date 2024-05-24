@@ -11,12 +11,12 @@ router.post('/funcionario', async (req, res) => {
             return res.status(400).send('data inválida');
         }
         const funcionario = new Funcionario({ nome, nif, cc, dataNascimento, entradaEmpresa, salario, genero, area });         
-        if(!funcionario.validarNif(nif)) {
+        /* if(!funcionario.validarNif(nif)) {
             return res.status(400).send('nif inválido');
         }
         if(!funcionario.validarCC(cc)) {
             return res.status(400).send('cc inválido');
-        }
+        } */
         await funcionario.save();
         res.status(201).send(funcionario);
     } catch (error) {
@@ -25,7 +25,15 @@ router.post('/funcionario', async (req, res) => {
 });
 
 router.put('/funcionario/:id', async (req, res) => {
+    // converter o id para ObjectId
+
+    const id = req.params.id;
+    console.log('aqui')
+    if(!id) {
+        return res.status(400).send('id inválido');
+    }
     const { nome, nif, cc, dataNascimento, entradaEmpresa, salario, genero, area } = req.body;
+    
     try {
         const funcionario = await Funcionario.findByIdAndUpdate(req.params.id, { nome, nif, cc, dataNascimento, entradaEmpresa, salario, genero, area }, { new: true });
         if(!funcionario) {

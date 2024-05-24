@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Form from './Form';
 import api from '../api/api';
-import { useParams } from 'react-router-dom';
+import Navbar from '../navbar/Index';
 
-const Funcionarios = () => {
-    
-    const { nome } = useParams();
-    
+const TabelaGenerica = () => {
     const [ dadosFuncionarios, setDadosFuncionarios ] = useState(null);
     const camposEscondidos = ['_id', '__v']; /* campos que vem da db e não desejamos mostrar na tabela */
     const params = new URLSearchParams(window.location.search);
-    
-    const { acao } = useParams();
-    const { id } = useParams();
+    const acao = params.get('acao');
     
     const dados = async () => {
         const response = await api.get('/funcionario', { withCredentials: true });
@@ -27,15 +22,16 @@ const Funcionarios = () => {
     if(acao) {
         switch(acao) {
             case 'adicionar': return <Form />;
-            case 'editar':                
-                return <Form id={ id } />
+            case 'editar':                 
+                const id = params.get('id');                
+                return <Form id={id} />
                 
             case 'remover': 
                 if(window.confirm('Tem a certeza que deseja remover este funcionário?')) {
                     const id = params.get('id');
                     api.delete('/funcionario/' + id, { withCredentials: true })
                     .then(res => {
-                        
+                        console.log(res);
                         dados();
                         window.location.href = '/funcionarios';
                     })
@@ -47,34 +43,33 @@ const Funcionarios = () => {
     
     return (
         <>  
- 
-            
-        <div className="row justify-content-center">
-                <h1 className='text-center mb-5 mt-3'>Funcionários</h1>
-                <table className="table table-bordered w-50">
+            <Navbar />
+            <h1>Funcionários</h1>
+            {dadosFuncionarios ?             
+                <table>
                     <thead>
-                        {dadosFuncionarios && dadosFuncionarios.length > 0 && Object.keys(dadosFuncionarios[0]).map(key => (
-                            camposEscondidos.includes(key) ? null : <th scope="col" key={key}>{trataCampos(trataCampos(key, 'm'), 'l')}</th>                        
+                        {dadosFuncionarios && dadosFuncionarios[0] && Object.keys(dadosFuncionarios[0]).map(key => (
+                            camposEscondidos.includes(key) ? null : <th key={key}>{trataCampos(trataCampos(key, 'm'), 'l')}</th>                        
                         ))}
-                        {dadosFuncionarios && dadosFuncionarios.length < 0 && <th scope="col">Sem dados</th> }
-                        <th scope="col"></th>
-                        <th scope="col"></th>
                     </thead>
                     <tbody>
-                        {dadosFuncionarios ? dadosFuncionarios.length > 0 ? dadosFuncionarios.map(funcionario => (
+                        {dadosFuncionarios.map(funcionario => (
                             <tr key={funcionario._id}>
                                 {Object.keys(funcionario).map(key => (
                                     camposEscondidos.includes(key) ? null : <td key={key}>{funcionario[key]}</td>
                                 ))}
-                                <td><a href={"/funcionarios/editar/" + funcionario._id}>Editar</a></td>
-                                <td><a onClick={apagarFuncionario(funcionario._id)}>Remover</a></td>
+                                <td><a href={"?acao=editar&id=" + funcionario._id}>Editar</a></td>
+                                <td><a href={"?acao=remover&id=" + funcionario._id}>Remover</a></td>
                             </tr>
-                        )) : <tr><td>Sem dados</td></tr> : null}
+                        ))}
                     </tbody>
-                </table> 
-            </div>
-            {/* Criar Nova componente para os Botões */}
-            <a class="btn btn-primary" href="/funcionarios/adicionar/">Adicionar</a>
+                </table>
+                : 
+                <h1>Não existem funcionários</h1>
+            }
+            <a href="?acao=adicionar">
+                <button>Adicionar</button>
+            </a>            
         </>
         
     );
@@ -91,15 +86,3 @@ const trataCampos = (valor, tipo) => {
         }
     }
 }
-
-const apagarFuncionario = async (id) => {
-    if(window.confirm('Tem a certeza que deseja remover este funcionário?')) {
-        api.delete('/funcionario/' + id, { withCredentials: true })
-        .then(res => {
-            
-            /* dados(); */
-            window.location.href = '/funcionarios';
-        })
-        .catch(err => console.log(err));
-    }
-};
