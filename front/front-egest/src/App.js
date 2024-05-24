@@ -4,6 +4,7 @@ import Home from './home/Index';
 import Registar from './auth/Registar';
 import Cookies from 'js-cookie';
 import Tabelas from './tabelas/Index';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 function App() {
