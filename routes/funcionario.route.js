@@ -57,8 +57,10 @@ router.delete('/funcionario/:id', async (req, res) => {
     }
 });
 
-router.get('/funcionario', async (req, res) => {
+router.get('/funcionario/:id?', async (req, res) => {
+        
     /* geral */
+    console.log('aqui')
     try {
         let funcionarios;        
         if(Object.keys(req.query).length > 0){            

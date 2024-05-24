@@ -5,8 +5,8 @@ const Navbar = () => {
         <nav>
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="/funcionarios">Funcionários</a></li>
-                <li><a href="/utilizadores">Utilizadores</a></li>
+                <li><a href="/v/funcionario">Funcionários</a></li>
+                <li><a href="/v/user">Utilizadores</a></li>
             </ul>
         </nav>
     );

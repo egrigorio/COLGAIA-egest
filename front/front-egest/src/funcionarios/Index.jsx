@@ -4,16 +4,12 @@ import api from '../api/api';
 import { useParams } from 'react-router-dom';
 
 const Funcionarios = () => {
-    
-    const { nome } = useParams();
-    
     const [ dadosFuncionarios, setDadosFuncionarios ] = useState(null);
-    const camposEscondidos = ['_id', '__v']; /* campos que vem da db e não desejamos mostrar na tabela */
-    const params = new URLSearchParams(window.location.search);
-    
+        
     const { acao } = useParams();
     const { id } = useParams();
     
+    const camposEscondidos = ['_id', '__v']; /* campos que vem da db e não desejamos mostrar na tabela */
     const dados = async () => {
         const response = await api.get('/funcionario', { withCredentials: true });
         setDadosFuncionarios(response.data);
@@ -28,28 +24,23 @@ const Funcionarios = () => {
         switch(acao) {
             case 'adicionar': return <Form />;
             case 'editar':                
-                return <Form id={ id } />
-                
+                return <Form id={ id } />                
             case 'remover': 
-                if(window.confirm('Tem a certeza que deseja remover este funcionário?')) {
-                    const id = params.get('id');
+                /* if(window.confirm('Tem a certeza que deseja remover este funcionário?') && id) {                    
                     api.delete('/funcionario/' + id, { withCredentials: true })
-                    .then(res => {
-                        
+                    .then(res => {                        
                         dados();
                         window.location.href = '/funcionarios';
                     })
                     .catch(err => console.log(err));
-                }
+                } */
                 break;                
         }
     }
     
     return (
-        <>  
- 
-            
-        <div className="row justify-content-center">
+        <>              
+            <div className="row justify-content-center">
                 <h1 className='text-center mb-5 mt-3'>Funcionários</h1>
                 <table className="table table-bordered w-50">
                     <thead>
@@ -67,7 +58,7 @@ const Funcionarios = () => {
                                     camposEscondidos.includes(key) ? null : <td key={key}>{funcionario[key]}</td>
                                 ))}
                                 <td><a href={"/funcionarios/editar/" + funcionario._id}>Editar</a></td>
-                                <td><a onClick={apagarFuncionario(funcionario._id)}>Remover</a></td>
+                                <td><a style={{cursor: 'pointer'}} onClick={() => {apagarFuncionario(funcionario._id)}}>Remover</a></td>
                             </tr>
                         )) : <tr><td>Sem dados</td></tr> : null}
                     </tbody>
@@ -75,10 +66,8 @@ const Funcionarios = () => {
             </div>
             {/* Criar Nova componente para os Botões */}
             <a class="btn btn-primary" href="/funcionarios/adicionar/">Adicionar</a>
-        </>
-        
-    );
-    
+        </>        
+    );    
 };
 
 export default Funcionarios;
@@ -95,8 +84,7 @@ const trataCampos = (valor, tipo) => {
 const apagarFuncionario = async (id) => {
     if(window.confirm('Tem a certeza que deseja remover este funcionário?')) {
         api.delete('/funcionario/' + id, { withCredentials: true })
-        .then(res => {
-            
+        .then(res => {            
             /* dados(); */
             window.location.href = '/funcionarios';
         })
