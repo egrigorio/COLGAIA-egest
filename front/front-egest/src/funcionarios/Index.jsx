@@ -39,8 +39,12 @@ const Funcionarios = () => {
     }
     
     return (
-        <>              
-            <div className="row justify-content-center">
+
+        <>  
+ 
+            
+        <div className="row justify-content-center">
+
                 <h1 className='text-center mb-5 mt-3'>Funcionários</h1>
                 <table className="table table-bordered w-50">
                     <thead>
