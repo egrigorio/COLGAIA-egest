@@ -1,11 +1,9 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './auth/Login';
 import Home from './home/Index';
-import Utilizadores from './utilizadores/Index';
 import Registar from './auth/Registar';
-import Funcionarios from './funcionarios/Index';
 import Cookies from 'js-cookie';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import Tabelas from './tabelas/Index';
 import './App.css';
 
 function App() {
@@ -15,11 +13,8 @@ function App() {
       <Routes>
         <Route path="/login" element={authToken ? <Navigate to="/" /> : <Login /> } />
         <Route path="/registar" element={authToken ? <Navigate to="/" /> : <Registar />} />
-        <Route path="/" element={authToken ? <Home /> : <Navigate to="/login" />} />
-        <Route path="/funcionarios" element={authToken ? <Funcionarios /> : <Navigate to="/login" />} />
-        <Route path="/funcionarios/:acao/:id?" element={authToken ? <Funcionarios /> : <Navigate to="/login" />} />
-        
-        
+        <Route path="/" element={authToken ? <Home /> : <Navigate to="/login" />} />                
+        <Route path="/v/:modulo/:acao?/:id?" element={authToken ? <Tabelas /> : <Navigate to="/login" />} />        
       </Routes>
     </BrowserRouter>
   );
