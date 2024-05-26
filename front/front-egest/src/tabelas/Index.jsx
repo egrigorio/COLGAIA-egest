@@ -2,17 +2,32 @@ import React, { useEffect, useState } from 'react';
 import api from '../api/api';
 import { useParams } from 'react-router-dom';
 import Form from './Form';
-
+import Navbar from '../navbar/Index';
+import Swal from 'sweetalert2';
 
 
 const Tabelas = () => {
+
+    const path = window.location.pathname;
+    const temBarraNoFinal = path.endsWith('/');
+    if(temBarraNoFinal) {
+        window.location.href = path.slice(0, -1);
+    }
+
+
     const { acao, id, modulo } = useParams();
     const [ dados, setDados ] = useState(null);
     const camposEscondidos = ['_id', '__v', 'password'];    
     const info = async () => {
-        const response = await api.get('/' + modulo, { withCredentials: true });
-        setDados(response.data);
-        console.log(response);
+        try {
+            const response = await api.get('/' + modulo, { withCredentials: true });                        
+            setDados(response.data);
+            console.log(response);            
+        } catch (error) {
+            window.location.href = '/';
+            console.log(error);
+            return;
+        }
     }
     useEffect(() => {
         info();
@@ -25,34 +40,38 @@ const Tabelas = () => {
                 return <Form modulo={modulo} id={ id } />                     
         }
     }
-
+    
     return (
-        <>              
-            <div className="row justify-content-center">
-                <h1 className='text-center mb-5 mt-3'>{modulo}</h1>
-                <table className="table table-bordered w-50">
-                    <thead>
-                        {dados && dados.length > 0 && Object.keys(dados[0]).map(key => (
-                            camposEscondidos.includes(key) ? null : 
-                            <th scope="col" key={key}>{trataCampos(trataCampos(key, 'm'), 'l')}</th>
-                        ))}
-                        {dados && dados.length < 0 && <th scope="col">Sem dados</th> }
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                    </thead>
-                    <tbody>
-                        {dados ? dados.length > 0 ? dados.map(dado => (
-                            <tr key={dado._id}>
-                                {Object.keys(dado).map(key => (
-                                    camposEscondidos.includes(key) ? null : <td key={key}>{dado[key]}</td>
-                                ))}
-                                <td><a href={"editar/" + dado._id}>Editar</a></td>
-                                <td><a onClick={() => {apagar(dado._id, modulo)}}>Remover</a></td>
-                            </tr>
-                        )) : <tr><td>Sem dados</td></tr> : <tr><td>Sem dados</td></tr>}
-                    </tbody>
-                </table>
-                <a class="btn btn-primary" href={"adicionar/"}>Adicionar</a>
+        <>                          
+            <Navbar />
+            <div className="flex flex-col justify-center items-center gap-6">                
+                <h1 className='text text-lg font-bold text-center'>{modulo}</h1>
+                <div className='w-8/12'>
+                    <table className="table">
+                        <thead>                        
+                            {dados && dados.length > 0 && Object.keys(dados[0]).map(key => (
+                                camposEscondidos.includes(key) ? null : 
+                                <th key={key}>{trataCampos(trataCampos(key, 'm'), 'l')}</th>
+                            ))                        
+                            }
+                            {dados && dados.length < 0 && <th>Sem dados</th> }
+                            <th>Editar</th>
+                            <th>Remover</th>
+                        </thead>
+                        <tbody>
+                            {dados ? dados.length > 0 ? dados.map(dado => (
+                                <tr key={dado._id} className='hover'>                                
+                                    {Object.keys(dado).map(key => (
+                                        camposEscondidos.includes(key) ? null : <td key={key}>{dado[key]}</td>
+                                    ))}
+                                    <td><a href={modulo + "/editar/" + dado._id}>Editar</a></td>
+                                    <td><a style={{cursor: 'pointer'}} onClick={() => {apagar(dado._id, modulo)}}>Remover</a></td>
+                                </tr>
+                            )) : <tr><td>Sem dados</td></tr> : <tr><td>Sem dados</td></tr>}
+                        </tbody>
+                    </table>
+                </div>
+                    <a class="btn btn-ghost" href={modulo + "/adicionar/"}>Adicionar</a>
             </div>
         </>
     );
@@ -69,13 +88,22 @@ const trataCampos = (valor, tipo) => {
 }
 
 const apagar = async (id, modulo) => {
-    if(window.confirm('Tem a certeza que deseja remover?')) {
-        api.delete('/' + modulo + '/' + id, { withCredentials: true })
-        .then(res => {                        
-            window.location.href = '/v/' + modulo;
-        })
-        .catch(err => console.log(err));
-    }
+    Swal.fire({
+        title: 'Tem a certeza que deseja remover?',
+        showDenyButton: true,
+        confirmButtonText: `Sim`,
+        denyButtonText: `Não`,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            api.delete('/' + modulo + '/' + id, { withCredentials: true })
+            .then(res => {                        
+                window.location.href = '/v/' + modulo;
+            })
+            .catch(err => console.log(err));
+        } else if (result.isDenied) {
+            Swal.fire('Operação cancelada', '', 'info')
+        }
+    }) 
 };
 
 export default Tabelas;

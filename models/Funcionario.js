@@ -34,6 +34,10 @@ const FuncionarioSchema = new Schema({
         type: String,
         required: true        
     },
+    email: {
+        type: String,
+        required: true
+    }
 });
 
 FuncionarioSchema.methods.validarNif = async function (nif) {

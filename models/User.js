@@ -12,9 +12,17 @@ const UserSchema = new Schema({
     password: {
         type: String,
         required: true
-    }
-
+    },
+    email: {
+        type: String,
+        required: true
+    },
+    tipo: {
+        type: String,
+        required: true
+    },    
 });
+
 
 UserSchema.pre('save', async function (next) {
     const hash = await bcrypt.hash(this.password, 10);
@@ -27,4 +35,6 @@ UserSchema.methods.isValidPassword = async function (password) {
     const compare = await bcrypt.compare(password, user.password);
     return compare;
 };
+// criar o código do user pra depois poder referenciar nos serviços o nome od user mais o código, que vai ser um outro id pra ficar mais amigavel do que
+// o object id do mongo
 module.exports = mongoose.model('User', UserSchema);

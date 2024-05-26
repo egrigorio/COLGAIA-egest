@@ -1,3 +1,5 @@
+import api from './api/api';
+
 const campos = (modulo) => {
     switch(modulo) { 
         case 'funcionario': {
@@ -33,30 +35,38 @@ const campos = (modulo) => {
             },
             {
                 "name": 'salario',
-                "type": 'text',
+                "type": 'number',
                 "placeholder": 'salario',
                 "label": 'Salário',                
             },
             {
                 "name": 'genero',
-                "type": 'text',
+                "type": 'select',
+                "options": ['Masculino', 'Feminino'],
                 "placeholder": 'genero',
                 "label": 'Género',                
             },
             {
                 "name": 'area',
-                "type": 'text',
-                "placeholder": 'area',
+                "type": 'select',
+                "options": [],
+                "placeholder": 'area',                
                 "label": 'Área',                
+            },
+            {
+                "name": 'email',
+                "type": 'select',
+                "placeholder": 'email',
+                "label": 'Email',                
             }
         ];
         }
         case 'user': {
             return [{
-                "name": 'nome',
+                "name": 'username',
                 "type": 'text',
-                "placeholder": 'Nome',
-                "label": 'Nome',                
+                "placeholder": 'Username',
+                "label": 'Username',                
             },
             {
                 "name": 'email',
@@ -72,13 +82,62 @@ const campos = (modulo) => {
             },
             {
                 "name": 'tipo',
-                "type": 'text',
+                "type": 'select',
                 "placeholder": 'tipo',
                 "label": 'Tipo',                
+            }];            
+        }
+        case 'area': {
+            return [{
+                "name": 'nome',
+                "type": 'text',
+                "placeholder": 'Nome',
+                "label": 'Nome',                
             }];
-            
+        }
+        case 'tipo': {
+            return [{
+                "name": 'tipo',
+                "type": 'text',
+                "placeholder": 'Tipo',
+                "label": 'Tipo',
+            }]
+        }
+        case 'servico': {
+            return [{
+                "name": 'nome',
+                "type": 'text',
+                "placeholder": 'Nome',
+                "label": 'Nome',                
+            },
+            {
+                "name": 'descricao',
+                "type": 'text',
+                "placeholder": 'descricao',
+                "label": 'Descrição',                
+            },
+            {
+                "name": 'preco',
+                "type": 'number',
+                "placeholder": 'preco',
+                "label": 'Preço',
+            },
+            {
+                "name": 'duracao',
+                "type": 'number',
+                "placeholder": 'duracao',
+                "label": 'Duração',
+            },        
+            {
+                "name": 'funcionario',
+                "type": 'select',
+                "options": [],
+                "placeholder": 'funcionario',
+                "label": 'Funcionário',
+            }
+        ]
         }
     }
 }
 
-module.exports = campos;
+export default campos;

@@ -1,5 +1,6 @@
 import React from 'react';
 import api from '../api/api';
+import Swal from 'sweetalert2';
 
 const handleSubmit = async (e) => {
     e.preventDefault();
@@ -10,7 +11,7 @@ const handleSubmit = async (e) => {
       console.log(response.status);
       if (response.status === 200) window.location.href = '/';
     } catch (error) {
-      if (error.response.status === 404) alert('user não encontrado');
+      if (error.response.status === 404) Swal.fire('Erro', 'Usuário não encontrado', 'error');
     }
 };
 

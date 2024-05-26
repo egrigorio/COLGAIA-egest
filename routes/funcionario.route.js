@@ -3,14 +3,14 @@ const router = express.Router();
 const Funcionario = require('../models/Funcionario');
 
 router.post('/funcionario', async (req, res) => {
-    let { nome, nif, cc, dataNascimento, entradaEmpresa, salario, genero, area } = req.body;
+    let { nome, nif, cc, dataNascimento, entradaEmpresa, salario, genero, area, email } = req.body;
     try {
         dataNascimento = validarData(dataNascimento);
         entradaEmpresa = validarData(entradaEmpresa);
         if(!dataNascimento || !entradaEmpresa) {
             return res.status(400).send('data inválida');
         }
-        const funcionario = new Funcionario({ nome, nif, cc, dataNascimento, entradaEmpresa, salario, genero, area });         
+        const funcionario = new Funcionario({ nome, nif, cc, dataNascimento, entradaEmpresa, salario, genero, area, email });         
         /* if(!funcionario.validarNif(nif)) {
             return res.status(400).send('nif inválido');
         }
@@ -24,18 +24,15 @@ router.post('/funcionario', async (req, res) => {
     }
 });
 
-router.put('/funcionario/:id', async (req, res) => {
-    // converter o id para ObjectId
-
-    const id = req.params.id;
-    console.log('aqui')
+router.put('/funcionario/:id', async (req, res) => {    
+    const id = req.params.id;    
     if(!id) {
         return res.status(400).send('id inválido');
     }
-    const { nome, nif, cc, dataNascimento, entradaEmpresa, salario, genero, area } = req.body;
+    const { nome, nif, cc, dataNascimento, entradaEmpresa, salario, genero, area, email } = req.body;
     
     try {
-        const funcionario = await Funcionario.findByIdAndUpdate(req.params.id, { nome, nif, cc, dataNascimento, entradaEmpresa, salario, genero, area }, { new: true });
+        const funcionario = await Funcionario.findByIdAndUpdate(req.params.id, { nome, nif, cc, dataNascimento, entradaEmpresa, salario, genero, area, email }, { new: true });
         if(!funcionario) {
             return res.status(404).send('funcionário não encontrado');
         }
@@ -60,13 +57,12 @@ router.delete('/funcionario/:id', async (req, res) => {
 router.get('/funcionario/:id?', async (req, res) => {
         
     /* geral */
-    console.log('aqui')
+    
     try {
         let funcionarios;        
         if(Object.keys(req.query).length > 0){            
             funcionarios = await Funcionario.find(req.query);
-        } else {
-            
+        } else {            
             funcionarios = await Funcionario.find();
         }
         res.status(200).send(funcionarios);
