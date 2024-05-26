@@ -16,7 +16,7 @@ router.post('/servico', async (req, res) => {
 router.get('/servico/:id?', async (req, res) => {
     try {
         let servicos;
-        if(Object.keys(req.params).id != undefined) {
+        if(req.params.id != undefined) {
             servicos = await Servico.findById(req.params.id);
         } else {
             servicos = await Servico.find();

@@ -5,7 +5,9 @@ const Tipo = require('../models/TipoUser');
 router.get('/tipo/:id?', async (req, res) => {
     try {
         let tipo;        
-        if(Object.keys(req.params).id != undefined) {
+        console.log(req.params.id)
+        if(req.params.id != undefined) {
+            console.log('aqui')
             tipo = await Tipo.findById(req.params.id);        
         } else {            
             tipo = await Tipo.find();

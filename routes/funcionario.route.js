@@ -61,7 +61,7 @@ router.get('/funcionario/:id?', async (req, res) => {
     try {
         let funcionarios;
         
-        if(Object.keys(req.params).id != undefined){            
+        if(req.params.id != undefined){            
             funcionarios = await Funcionario.findById(req.params.id);
             console.log('aqui');
         } else {

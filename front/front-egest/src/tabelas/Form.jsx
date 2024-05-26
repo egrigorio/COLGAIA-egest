@@ -65,6 +65,10 @@ const Form = (props) => {
                 fetchOpcoes();
                 break;
             }
+            default: {
+                console.log('aqui')
+                break;
+            }
         }
     }, []);
     useEffect(() => {
@@ -75,9 +79,7 @@ const Form = (props) => {
                 try {
                     let string = '/' + mod + '/' + id;
                     console.log(string)
-                    const responseApi = await api.get(string, { withCredentials: true });
-                    console.log('aqui')
-                    console.log(responseApi)
+                    const responseApi = await api.get(string, { withCredentials: true });                    
                     if (responseApi.status === 404) { alert('Não encontrado'); return;}
                     setData(responseApi.data);
                 } catch (error) {
@@ -115,6 +117,8 @@ const Form = (props) => {
             console.log(error);
         }
     };      
+    console.log(data)
+    
       
     return (
         <>
@@ -138,7 +142,7 @@ const Form = (props) => {
                                         key={index}
                                         name={campo.name}
                                         id={campo.name}
-                                        defaultValue={data ? data[0][campo.name] : ''}
+                                        defaultValue={data ? data[campo.name] : ''}
                                         className="select select-bordered w-full "
                                     >                        
                                         <option value=''>Selecione {campo.name} </option>
@@ -175,7 +179,7 @@ const Form = (props) => {
                                         placeholder={campo.placeholder} 
                                         name={campo.name}
                                         id={campo.name} 
-                                        defaultValue={data ? data[0][campo.name] : ''} 
+                                        defaultValue={data ? data[campo.name] : ''} 
                                         className="input input-bordered w-full " />                            
                                 </label>
                                 

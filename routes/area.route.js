@@ -6,7 +6,7 @@ router.get('/area/:id?', async (req, res) => {
     
     try{
         let area;
-        if(Object.keys(req.params).id != undefined) {
+        if(req.params.id != undefined) {
             area = await Area.findById(req.params.id);
         } else {
             area = await Area.find();            
