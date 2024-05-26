@@ -73,6 +73,15 @@ router.get('/funcionario/:id?', async (req, res) => {
     }    
 });
 
+router.get('/funcionario/filtro/email', async (req, res) => {
+    try {
+        const funcionario = await Funcionario.find().select('email');
+        res.status(200).send(funcionario);
+    } catch (error) {
+        console.log('erro ao buscar funcionarios' + error);
+    }
+});
+
 router.get('/salario', async (req, res) => {
     try {
         switch (req.query.operacao) {

@@ -52,7 +52,7 @@ const Form = (props) => {
                 setFlagModulo(true);
                 const fetchOpcoes = async () => {
                     try {
-                        const responseEmail = await api.get('/user/filtro/email', { withCredentials: true });
+                        const responseEmail = await api.get('/funcionario/filtro/email', { withCredentials: true });
                         const responseArea = await api.get('/area/filtro/nome', { withCredentials: true });
                         setOpcoes({
                             funcionario: responseEmail.data.map(obj => obj.email),
