@@ -1,4 +1,5 @@
 import React from "react";
+import Charts from "../charts/Chart";
 
 const Admin = (props) => {
     let username = props.username;
@@ -8,7 +9,10 @@ const Admin = (props) => {
                 <div className="max-w-md">
                 <h1 className="text-5xl font-bold">Olá {username} </h1>
                 <p className="py-6">Bem vindo de volta a egest. Sua vista atual da plataforma é de ADMIN.</p>
-                <span>adicionar aqui gráficos e estatisticas</span>                
+                <div>
+                <h1 className="text-2xl font-bold mt-2 text-center">Users por Tipo</h1>
+                    <Charts/>
+                </div>
                 </div>
             </div>
         </div>
