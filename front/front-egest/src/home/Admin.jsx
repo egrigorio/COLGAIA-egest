@@ -9,7 +9,7 @@ const Admin = (props) => {
                 <div className="max-w-md">
                 <h1 className="text-5xl font-bold">Olá {username} </h1>
                 <p className="py-6">Bem vindo de volta a egest. Sua vista atual da plataforma é de ADMIN.</p>
-                <div>
+                <div className="cotent-center">
                 <h1 className="text-2xl font-bold mt-2 text-center">Users por Tipo</h1>
                     <Charts/>
                 </div>
