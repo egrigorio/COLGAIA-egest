@@ -59,10 +59,12 @@ router.get('/funcionario/:id?', async (req, res) => {
     /* geral */
     
     try {
-        let funcionarios;        
-        if(Object.keys(req.query).length > 0){            
-            funcionarios = await Funcionario.find(req.query);
-        } else {            
+        let funcionarios;
+        
+        if(Object.keys(req.params).id != undefined){            
+            funcionarios = await Funcionario.findById(req.params.id);
+            console.log('aqui');
+        } else {
             funcionarios = await Funcionario.find();
         }
         res.status(200).send(funcionarios);

@@ -33,23 +33,14 @@ router.post('/login', async (req, res) => {
 router.get('/user/:id?', async (req, res) => {
     try {
         let user;
-        if(Object.keys(req.query).length > 0) {
-            user = await User.find(req.query);
+        if(Object.keys(req.params).id != undefined) {
+            user = await User.findById(req.params.id);
         } else {
             user = await User.find();
         }
         res.status(200).send(user);
     } catch (error) {
         console.log('erro ao buscar users');
-    }
-});
-
-router.get('/user/filtro/codigo', async (req, res) => {
-    try {
-        const user = await User.find({ tipo: 'funcionário'}).select('username');
-        res.status(200).send(user);
-    } catch (error) {
-        console.log('erro ao buscar users' + error);
     }
 });
 

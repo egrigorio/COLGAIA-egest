@@ -3,17 +3,18 @@ const router = express.Router();
 const Area = require('../models/Area');
 
 router.get('/area/:id?', async (req, res) => {
-    try {
-        if(req.params.id) {
-            const area = await Area.findById(req.params.id);
-            res.status(200).send(area);
+    
+    try{
+        let area;
+        if(Object.keys(req.params).id != undefined) {
+            area = await Area.findById(req.params.id);
         } else {
-            const area = await Area.find();
-            res.status(200).send(area);
-        }        
-    } catch (error) {
-        console.log('erro ao buscar areas');
-    }
+            area = await Area.find();            
+        }
+        res.status(200).send(area);
+    } catch(error) {
+        console.log(error)
+    }    
 });
 
 router.get('/area/filtro/nome', async (req, res) => {

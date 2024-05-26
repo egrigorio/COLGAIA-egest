@@ -4,10 +4,10 @@ const Tipo = require('../models/TipoUser');
 
 router.get('/tipo/:id?', async (req, res) => {
     try {
-        let tipo;
-        if(Object.keys(req.query).length > 0) {
-            tipo = await Tipo.find(req.query);
-        } else {
+        let tipo;        
+        if(Object.keys(req.params).id != undefined) {
+            tipo = await Tipo.findById(req.params.id);        
+        } else {            
             tipo = await Tipo.find();
         }
         res.status(200).send(tipo);

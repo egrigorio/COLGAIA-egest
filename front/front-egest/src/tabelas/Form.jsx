@@ -11,6 +11,7 @@ const Form = (props) => {
     const modulo = useParams().modulo;
     const formCampos = campos(modulo);
     
+    const { id } = useParams();
 
     console.log(modulo)
     
@@ -67,11 +68,16 @@ const Form = (props) => {
         }
     }, []);
     useEffect(() => {
-        if (props.id != undefined) {
-            console.log(props.id)       
+        if (id) {
+            console.log(id)       
+            let mod = modulo;
             const fetchData = async () => {
                 try {
-                    const responseApi = await api.get('/' + modulo + '/' + props.id, { withCredentials: true });
+                    let string = '/' + mod + '/' + id;
+                    console.log(string)
+                    const responseApi = await api.get(string, { withCredentials: true });
+                    console.log('aqui')
+                    console.log(responseApi)
                     if (responseApi.status === 404) { alert('Não encontrado'); return;}
                     setData(responseApi.data);
                 } catch (error) {
@@ -101,6 +107,7 @@ const Form = (props) => {
         e.preventDefault();
         try {
             const formData = new FormData(e.target);
+            console.log(formData)
             const response = await api.post('/' + modulo, formData, { withCredentials: true });
             console.log(response);
             window.location.href = '/v/' + modulo;
@@ -108,9 +115,7 @@ const Form = (props) => {
             console.log(error);
         }
     };      
-    
-    console.log(opcoes)
-    console.log(formCampos)
+      
     return (
         <>
             <Navbar />
@@ -118,11 +123,12 @@ const Form = (props) => {
                 <h1 className='text text-lg font-bold text-center'>{props.id ? 'Editar' : 'Adicionar'} {modulo}</h1>
                 <form onSubmit={props.id ? handleEdit : handleSubmit} className="flex flex-col items-center">
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4 w-full">
-                        <input type="hidden" name="id" id="id" defaultValue={data ? data[0]._id : ''} />
+                        <input type="hidden" name="id" id="id" defaultValue={data ? id : ''} />
                         {formCampos?.map((campo, index) => (
                             
                             campo.type == 'select' ? 
                             (
+                                
                             <>
                                 <label key={index} htmlFor={campo.name} className="form-control w-full">
                                     <div className="label">
@@ -135,14 +141,25 @@ const Form = (props) => {
                                         defaultValue={data ? data[0][campo.name] : ''}
                                         className="select select-bordered w-full "
                                     >                        
-                                        <option value=''>Selecione {campo.name} </option>                            
+                                        <option value=''>Selecione {campo.name} </option>
+                                        {campo.name == 'genero' ? 
+                                        (
+                                            <>
+                                                <option value='M'>Masculino</option>
+                                                <option value='F'>Feminino</option>
+                                            </>
+                                        ) : 
+                                        (
+                                            <></>
+                                        )
+                                        }                                        
+                                        
                                         {flagModulo && opcoes && opcoes[campo.name] && opcoes[campo.name].map((opcao, index) => {
                                             return <option key={`${campo.name}-${index}`} value={opcao}>{opcao}</option>
                                         })}
                                         {!flagModulo && opcoes && opcoes.map((opcao, index) => {                                
                                             return <option key={`opcao-${index}`} value={opcao}>{opcao}</option>
-                                        })} 
-                                        
+                                        })}                                        
                                     </select>                        
                                 </label>
                             </>
@@ -156,6 +173,7 @@ const Form = (props) => {
                                     <input 
                                         type={campo.type} 
                                         placeholder={campo.placeholder} 
+                                        name={campo.name}
                                         id={campo.name} 
                                         defaultValue={data ? data[0][campo.name] : ''} 
                                         className="input input-bordered w-full " />                            
