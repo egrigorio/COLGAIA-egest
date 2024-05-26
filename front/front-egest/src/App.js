@@ -36,7 +36,7 @@ function App() {
         <Route path="/" element={authToken ? <Home cargo={cargo} email={email} username={username} /> : <Navigate to="/fo" />} />
         <Route path="/v/:modulo/:acao?/:id?" element={authToken ? decoded.cargo.toLowerCase() == 'admin' ? <Tabelas /> : <Navigate to="/fo" /> : <Navigate to="/fo" /> } />        
         <Route path="/fo/" element={<Index />} />
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="*" element={<Navigate to="/fo" />} />
       </Routes>
     </BrowserRouter>
   );
