@@ -3,6 +3,7 @@ import api from "../api/api";
 import { useParams } from 'react-router-dom';
 import campos from '../config';
 import Navbar from "../navbar/Index";
+import Swal from 'sweetalert2';
 
 const Form = (props) => {   
     const [data, setData] = useState(null);
@@ -114,6 +115,14 @@ const Form = (props) => {
             console.log(response);
             window.location.href = '/v/' + modulo;
         } catch (error) {
+            if(error.response.status === 400) {
+                Swal.fire({
+                    title: 'Erro',
+                    text: error.response.data,
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                });
+            }
             console.log(error);
         }
     };      

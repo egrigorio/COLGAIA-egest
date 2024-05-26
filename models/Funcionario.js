@@ -49,7 +49,7 @@ FuncionarioSchema.methods.validarNif = async function (nif) {
 
     let modulo11 = total - parseInt(total / 11) * 11;
     let comparador = modulo11 == 1 || modulo11 == 0 ? 0 : 11 - modulo11;
-
+    console.log(nif[8] == comparador)
     return nif[8] == comparador
 };
 

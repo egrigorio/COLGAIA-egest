@@ -18,11 +18,11 @@ const Funcionario = (props) => {
     }
     
     const Servicos = () => {
-        return (
+        return (            
             <div>
                 {servicos?.map(servico => {
                     return (
-                        <>
+                        <>                            
                             <div className="card w-96 bg-base-100 shadow-xl">                             
                                 <div className="card-body">
                                     <h2 className="card-title">Título do serviço: {servico.nome}</h2>
@@ -46,7 +46,23 @@ const Funcionario = (props) => {
     
     return (
         <>
-            <div className="hero min-h-screen bg-base-200 flex flex-col">
+            <div className="navbar bg-base-100">
+                <div className="flex-1">
+                    <a className="btn btn-ghost text-xl">egest</a>
+                </div>
+                <div className="flex-none">
+                    <ul className="menu menu-horizontal px-1">
+                    <li><a onClick={
+                        () => {
+                            document.cookie = "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                            localStorage.removeItem('cargo');
+                            window.location.href = '/';
+                        }
+                    }>Logout</a></li>                                    
+                    </ul>
+                </div>
+            </div>
+            <div className="hero min-h-screen bg-base-200 flex flex-col py-24">
                 <div className="hero-content text-center">
                     <div className="max-w-md">
                         <h1 className="text-5xl font-bold">Olá, {username} </h1>

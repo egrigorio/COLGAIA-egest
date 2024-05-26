@@ -6,17 +6,32 @@ router.post('/funcionario', async (req, res) => {
     let { nome, nif, cc, dataNascimento, entradaEmpresa, salario, genero, area, email } = req.body;
     try {
         dataNascimento = validarData(dataNascimento);
-        entradaEmpresa = validarData(entradaEmpresa);
-        if(!dataNascimento || !entradaEmpresa) {
-            return res.status(400).send('data inválida');
+        entradaEmpresa = validarData(entradaEmpresa);        
+
+        if(salario < 820) {
+            return res.status(400).send('Salário deve ser maior que 820€, correspondente ao salário mínimo nacional');
         }
+
+        if(dataNascimento < new Date('1900-01-01') || entradaEmpresa < new Date('1900-01-01') || dataNascimento > new Date('2008-01-01') || entradaEmpresa < dataNascimento) {
+            return res.status(400).send('Data inválida');
+        }
+
+        if(!dataNascimento || !entradaEmpresa) {
+            return res.status(400).send('Data inválida');
+        }
+
+        const funcionarioExistente = await Funcionario.findOne({ email: email });
+        if(funcionarioExistente) {
+            return res.status(400).send('Funcionário já existe');
+        }
+
         const funcionario = new Funcionario({ nome, nif, cc, dataNascimento, entradaEmpresa, salario, genero, area, email });         
-        /* if(!funcionario.validarNif(nif)) {
-            return res.status(400).send('nif inválido');
+        if(!funcionario.validarNif(nif)) {
+            return res.status(400).send('NIF inválido');
         }
         if(!funcionario.validarCC(cc)) {
-            return res.status(400).send('cc inválido');
-        } */
+            return res.status(400).send('CC inválido');
+        }
         await funcionario.save();
         res.status(201).send(funcionario);
     } catch (error) {
@@ -62,8 +77,7 @@ router.get('/funcionario/:id?', async (req, res) => {
         let funcionarios;
         
         if(req.params.id != undefined){            
-            funcionarios = await Funcionario.findById(req.params.id);
-            console.log('aqui');
+            funcionarios = await Funcionario.findById(req.params.id);            
         } else {
             funcionarios = await Funcionario.find();
         }

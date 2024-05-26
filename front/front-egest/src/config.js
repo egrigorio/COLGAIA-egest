@@ -11,13 +11,13 @@ const campos = (modulo) => {
             },
             {
                 "name": 'nif',
-                "type": 'text',
+                "type": 'number',
                 "placeholder": 'nif',
                 "label": 'NIF',          
             },
             {
                 "name": 'cc',
-                "type": 'text',
+                "type": 'number',
                 "placeholder": 'cc',
                 "label": 'CC',                
             },

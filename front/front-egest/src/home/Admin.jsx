@@ -9,15 +9,15 @@ const Admin = (props) => {
             <div className="hero-content text-center">
                 <div className="max-w-md">
                     <h1 className="text-5xl font-bold">Olá {username} </h1>
-                    <p className="py-6">Bem vindo de volta a egest. Sua vista atual da plataforma é de ADMIN.</p>
-                    <div className="charts-container">
+                    <p className="py-2">Bem vindo de volta a egest. Sua vista atual da plataforma é de ADMIN.</p>
+                    <div className="charts-container flex flex-row gap-36 justify-center">
                         <div className="chart" style={{ display: "inline-block" }}>
                             <h1 className="text-2xl font-bold mt-2 text-center">Users por Tipo</h1>
                             <Charts/>
                         </div>
                         <div className="chart" style={{ display: "inline-block" }}>
                             <h1 className="text-2xl font-bold mt-2 text-center">Serviços por Funcionário</h1>
-                            <div style={{ height: "300px" }}>
+                            <div style={{ height: "250px" }}>
                                 <Chart2/>
                             </div>
                         </div>

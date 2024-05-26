@@ -6,8 +6,7 @@ router.get('/tipo/:id?', async (req, res) => {
     try {
         let tipo;        
         console.log(req.params.id)
-        if(req.params.id != undefined) {
-            console.log('aqui')
+        if(req.params.id != undefined) {            
             tipo = await Tipo.findById(req.params.id);        
         } else {            
             tipo = await Tipo.find();
