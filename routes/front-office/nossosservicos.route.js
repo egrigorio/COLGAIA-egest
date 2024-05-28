@@ -20,7 +20,7 @@ router.get('/nossos-servicos/:id?', async (req, res) => {
         try {
             let query = {};
             let sort = {};
-            console.log(req.query)
+            
             for (let key in req.query) {
                 if (key === 'ordem') {
                     let parts = req.query[key].split('%');

@@ -71,20 +71,95 @@ router.delete('/funcionario/:id', async (req, res) => {
 
 router.get('/funcionario/:id?', async (req, res) => {
         
-    /* geral */
-    
-    try {
-        let funcionarios;
-        
-        if(req.params.id != undefined){            
-            funcionarios = await Funcionario.findById(req.params.id);            
-        } else {
-            funcionarios = await Funcionario.find();
+    if(Object.keys(req.query).length > 0) {
+        try {
+            let query = {};
+            let sort = {};            
+            for (let key in req.query) {
+                if (key === 'ordem') {
+                    let parts = req.query[key].split('%');
+                    if (parts.length === 2) {
+                        let field = parts[0];
+                        let order = parts[1] === 'asc' ? 1 : -1;
+                        sort[field] = order;
+                    }
+                } else if (req.query[key] === 'true') {
+                    query[key] = { $exists: true };
+                }
+                
+            }
+            const funcionarios = await Funcionario.find(query).sort(sort);
+            res.status(200).send(funcionarios);
+        } catch (error) {
+            console.log(error);
+            res.status(400).send('erro ao buscar');
         }
-        res.status(200).send(funcionarios);
-    } catch (error) {
-        console.log(error);
-    }    
+    } else {
+        try {
+            let funcionarios;
+            if(req.params.id != undefined) {
+                funcionarios = await Funcionario.findById(req.params.id);
+            } else {
+                funcionarios = await Funcionario.find();
+            }
+            res.status(200).send(funcionarios);
+        } catch (error) {
+            console.log(error);
+        }
+    }        
+});
+
+router.get('/funcionario/busca/:busca', async (req, res) => {
+    const busca = req.params.busca;
+    
+    if(Object.keys(req.query).length > 0) {
+        try {
+            let query = {};
+            let sort = {};                     
+            for (let key in req.query) {
+                if (key === 'ordem') {
+                    let parts = req.query[key].split('%');
+                    if (parts.length === 2) {
+                        let field = parts[0];
+                        let order = parts[1] === 'asc' ? 1 : -1;
+                        sort[field] = order;
+                    }
+                } else if (req.query[key] === 'true') {
+                    query[key] = { $exists: true };
+                }
+                
+            }
+            const funcionario = await Funcionario.find({ 
+                $and: [
+                    { $or: [
+                        {nome: { $regex: busca, $options: 'i' } },
+                        {email: { $regex: busca, $options: 'i' }},
+                        {area: { $regex: busca, $options: 'i' }}
+                    ]},
+                    query
+                ]
+            }).sort(sort);
+
+            res.status(200).send(funcionario);
+        } catch (error) {
+            console.log(error);
+            res.status(400).send('erro ao buscar');
+        }
+    } else {
+        try {            
+            const funcionario = await Funcionario.find({ 
+                $or: [
+                    {nome: { $regex: busca, $options: 'i' } },
+                    {email: { $regex: busca, $options: 'i' }},
+                    {area: { $regex: busca, $options: 'i' }}
+                ]
+            });
+            
+            res.status(200).send(funcionario);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 });
 
 router.get('/funcionario/filtro/email', async (req, res) => {

@@ -4,22 +4,35 @@ import api from "../../api/api";
 
 const Busca = () => {
 
+    // tirar barra do final da pesquisa pra nn dar conflitos
     const path = window.location.pathname;
     const temBarraNoFinal = path.endsWith('/');
     if(temBarraNoFinal) {
         window.location.href = path.slice(0, -1);
     }
-
+    //
+    
+    // declarações
     const [dados, setDados] = useState([]);
     const [buscaInput, setBuscaInput] = useState('');
-    const [filtros, setFiltros] = useState(); // filtros = [{ name: 'preco', checked: false }
+    const [filtros, setFiltros] = useState(); 
     const [ordem, setOrdem] = useState(); 
     const { modulo } = useParams();
+    //
 
-    const filtrosModulo = {
+    // discriminações quanto ao modulo
+    const filtrosModulo = { /* filtros que aparecem consoante o módulo */
         'nossos-servicos': [{ 'name': 'preco', 'label': 'Preço', 'type': 'number' }, { 'name': 'titulo', 'label': 'Título', 'type': 'number' }],
+        'funcionario': [{ 'name': 'nome', 'label': 'Nome', 'type': 'number' }, { 'name': 'dataNascimento', 'label': 'Data de Nascimento', 'type': 'number' }, { 'name': 'entradaEmpresa', 'label': 'Data de Entrada na Empresa', 'type': 'number' }, { 'name': 'salario', 'label': 'Salário', 'type': 'number'}],
     }
+
+    const campoDiscriminador = { /* const pra escolher qual o campo que vai pro location.href */
+        'nossos-servicos': 'titulo',
+        'funcionario': 'nome',
+    }
+    //
     
+    // useeffect para dar fetch nos dados, muda consoante filtros são adicionados
     useEffect(() => {
         const buscarDados = async () => {
             try {
@@ -38,6 +51,7 @@ const Busca = () => {
                         query = '?ordem=' + ordem;
                     }
                     const response = await api.get(`/${modulo}${query}`, { withCredentials: true });
+                    console.log(response)
                     setDados(response.data);
                 }                
             } catch (error) {
@@ -46,18 +60,21 @@ const Busca = () => {
         }
         buscarDados();
     }, [buscaInput, filtros, ordem]);
+    //
 
-    const ChangeBusca = (e) => {        
+    // funções para mudar os estados
+    const ChangeBusca = (e) => { /* essa função muda consoante o input da busca muda, pra devolver resultados instantaneos */
         setBuscaInput(e.target.value);
     }
 
-    const ChangeOrdem = (e) => {
+    const ChangeOrdem = (e) => { /* muda consoante o radio, de novo, pra devolver resultados instantaneos */
         const { id } = e.target;        
         setOrdem(id);
     };    
+    //
     useEffect(() => {
-        console.log(dados)
-    }, [dados]);
+        console.log(ordem)
+    }, [ordem]);
     return (
         <>
             <div>
@@ -110,7 +127,7 @@ const Busca = () => {
                 {dados.map((dado, index) => {
                     return (
                         <div key={index} className="card bordered w-full">
-                            <a href={window.location.href + "/" + dado.titulo}>
+                            <a href={window.location.href + "/" + dado[campoDiscriminador[modulo]]}>
                                 <div className="card-body">
                                     {Object.keys(dado).map((key, index) => {
                                         return (
