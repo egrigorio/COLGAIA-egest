@@ -24,69 +24,69 @@ const Registar = () => {
             </form>
         </div> */
         <body className="bg-light">
-        <section class="p-3 p-md-4 p-xl-5">
-          <div class="container mb-5 mt-5">
-            <div class="row justify-content-center">
-              <div class="col-12 col-xxl-11">
-                <div class="card border-light-subtle shadow-sm">
-                  <div class="row g-0">
-                    <div class="col-12 col-md-6">
-                      <img class="img-fluid rounded-image w-100 h-100 object-fit-cover" loading="lazy" src="./contents/styling/DECOR_1.jpg" alt="Welcome back you've been missed!" id="loginIMG" />
+        <section className="p-3 p-md-4 p-xl-5">
+          <div className="container mb-5 mt-5">
+            <div className="row justify-content-center">
+              <div className="col-12 col-xxl-11">
+                <div className="card border-light-subtle shadow-sm">
+                  <div className="row g-0">
+                    <div className="col-12 col-md-6">
+                      <img className="img-fluid rounded-image w-100 h-100 object-fit-cover" loading="lazy" src="./contents/styling/DECOR_1.jpg" alt="Welcome back you've been missed!" id="loginIMG" />
                     </div>
-                    <div class="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                      <div class="col-12 col-lg-11 col-xl-10">
-                        <div class="card-body p-3 p-md-4 p-xl-5">
-                          <div class="row">
-                            <div class="col-12">
-                              <div class="mb-5">
-                                <div class="text-center mb-4">
+                    <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
+                      <div className="col-12 col-lg-11 col-xl-10">
+                        <div className="card-body p-3 p-md-4 p-xl-5">
+                          <div className="row">
+                            <div className="col-12">
+                              <div className="mb-5">
+                                <div className="text-center mb-4">
                                   <a href="#!">
                                     <img src="./contents/branding/2dLogo.png" alt="Songbird Logo" width="175" height="57"></img>
                                   </a>
                                 </div>
-                                <h4 class="text-center">Bem vindo de volta!</h4>
+                                <h4 className="text-center">Bem vindo de volta!</h4>
                               </div>
                             </div>
                           </div>
                           <form onSubmit={handleSubmit}>
-                            <div class="row gy-3 overflow-hidden">
-                              <div class="col-12">
-                                <div class="form-floating mb-3">
-                                  <input type="text" class="form-control" name="username" id="username" placeholder="username" required/>
-                                  <label for="username" class="form-label">Username</label>
+                            <div className="row gy-3 overflow-hidden">
+                              <div className="col-12">
+                                <div className="form-floating mb-3">
+                                  <input type="text" className="form-control" name="username" id="username" placeholder="username" required/>
+                                  <label for="username" className="form-label">Username</label>
                                 </div>
                               </div>
-                              <div class="col-12">
-                                <div class="form-floating mb-3">
-                                  <input type="password" class="form-control" name="password" id="password" placeholder="password" required/>
-                                  <label for="password" class="form-label">Password</label>
+                              <div className="col-12">
+                                <div className="form-floating mb-3">
+                                  <input type="password" className="form-control" name="password" id="password" placeholder="password" required/>
+                                  <label for="password" className="form-label">Password</label>
                                 </div>
                               </div>
-                              <div class="col-12">
-                                <div class="form-floating mb-3">
-                                  <input type="password" class="form-control" name="confirmar_password" id="confirmar_password" placeholder="confirmar_password" required/>
-                                  <label for="confirmar_password" class="form-label">Confirmar Password</label>
+                              <div className="col-12">
+                                <div className="form-floating mb-3">
+                                  <input type="password" className="form-control" name="confirmar_password" id="confirmar_password" placeholder="confirmar_password" required/>
+                                  <label for="confirmar_password" className="form-label">Confirmar Password</label>
                                 </div>
                               </div>
-                              <div class="col-12">
-                                <div class="form-floating mb-3">
-                                    <select className='form-select' name="cargo" id="cargo">
+                              <div className="col-12">
+                                <div className="form-floating mb-3">
+                                    <select classNameName='form-select' name="cargo" id="cargo">
                                         <option value="admin">admin</option>
                                     </select>
                                 </div>
                               </div>
-                              <div class="col-12">
-                                <div class="d-grid">
-                                  <button class="btn btn-dark btn-lg" type="submit" value="registar">Registar</button>
+                              <div className="col-12">
+                                <div className="d-grid">
+                                  <button className="btn btn-dark btn-lg" type="submit" value="registar">Registar</button>
                                 </div>
                               </div>
                             </div>
                           </form>
-                          <div class="row">
-                            <div class="col-12">
-                              <div class="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center mt-3">
-                                <a href="register.php" class="link-secondary text-decoration-none">Criar Conta</a>
-                                <a href="#!" class="link-secondary text-decoration-none">Esqueceu a Password?</a>
+                          <div className="row">
+                            <div className="col-12">
+                              <div className="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center mt-3">
+                                <a href="register.php" className="link-secondary text-decoration-none">Criar Conta</a>
+                                <a href="#!" className="link-secondary text-decoration-none">Esqueceu a Password?</a>
                               </div>
                             </div>
                           </div>

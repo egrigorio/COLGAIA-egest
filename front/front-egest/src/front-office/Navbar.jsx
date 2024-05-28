@@ -1,31 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import api from "../api/api";
 
 const Navbar = () => {
+    const [nomeEmpresa, setNomeEmpresa] = useState(null);
+    const [items, setItems] = useState(null);
+
+    useEffect(() => {
+        const buscarEmpresa = async () => {
+            try {
+                const response = await api.get('/infoempresa', { withCredentials: true });
+                setNomeEmpresa(response.data[0].nome);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        const buscarItems = async () => {
+            try {
+                const response = await api.get('/navbar', { withCredentials: true });
+                setItems(response.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        buscarItems();
+        buscarEmpresa();
+    }, []);
+
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <div className="container-fluid">
-                <a className="navbar-brand" href="#">Navbar</a>
-                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"></span>
-                </button>
-                <div className="collapse navbar-collapse" id="navbarNav">
-                    <ul className="navbar-nav">
-                        <li className="nav-item">
-                            <a className="nav-link active" aria-current="page" href="#">Home</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#">Features</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#">Pricing</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link disabled">Disabled</a>
-                        </li>
-                    </ul>
-                </div>
+        <div className="navbar bg-base-100">
+            <div className="flex-1">
+                <a className="btn btn-ghost text-xl">{nomeEmpresa}</a>
             </div>
-        </nav>
+            <div className="flex-none">
+                <ul className="menu menu-horizontal px-1">
+                    {items && items.map(item => {                        
+                        switch (item.tipo) {
+                            case 'link':
+                                return <li key={item.label}><a href={item.url}>{item.label}</a></li>;
+                            case 'button':
+                                return <li key={items.nome}><button onClick={items.action}>{items.nome}</button></li>;
+                            default:
+                                return null;
+                        }
+                    })}
+                </ul>
+            </div>
+        </div>
     );
 };
 

@@ -5,6 +5,8 @@ import Registar from './auth/Registar';
 import Cookies from 'js-cookie';
 import Tabelas from './tabelas/Index';
 import Index from './front-office/Index';
+import Componente from './front-office/busca/Componente';
+import Busca from './front-office/busca/Index';
 import { jwtDecode } from 'jwt-decode';
 import './App.css';
 
@@ -19,8 +21,7 @@ function App() {
     console.log(decoded)
     cargo = decoded.cargo;
     email = decoded.email;
-    username = decoded.username;
-    console.log(decoded)
+    username = decoded.username;    
   } catch (error) {
     console.log('erro ao decodificar token')  
   }
@@ -36,6 +37,8 @@ function App() {
         <Route path="/" element={authToken ? <Home cargo={cargo} email={email} username={username} /> : <Navigate to="/fo" />} />
         <Route path="/v/:modulo/:acao?/:id?" element={authToken ? decoded.cargo.toLowerCase() == 'admin' ? <Tabelas /> : <Navigate to="/fo" /> : <Navigate to="/fo" /> } />        
         <Route path="/fo/" element={<Index />} />
+        <Route path="/fo/:modulo" element={<Busca />} />
+        <Route path="/fo/:modulo/:componente" element={<Componente />} />        
         <Route path="*" element={<Navigate to="/fo" />} />
       </Routes>
     </BrowserRouter>

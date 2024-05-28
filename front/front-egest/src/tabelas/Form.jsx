@@ -137,11 +137,9 @@ const Form = (props) => {
                 <form onSubmit={props.id ? handleEdit : handleSubmit} className="flex flex-col items-center">
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4 w-full">
                         <input type="hidden" name="id" id="id" defaultValue={data ? id : ''} />
-                        {formCampos?.map((campo, index) => (
-                            
+                        {formCampos?.map((campo, index) => (                            
                             campo.type == 'select' ? 
-                            (
-                                
+                            (                                
                             <>
                                 <label key={index} htmlFor={campo.name} className="form-control w-full">
                                     <div className="label">
@@ -155,18 +153,9 @@ const Form = (props) => {
                                         className="select select-bordered w-full "
                                     >                        
                                         <option value=''>Selecione {campo.name} </option>
-                                        {campo.name == 'genero' ? 
-                                        (
-                                            <>
-                                                <option value='M'>Masculino</option>
-                                                <option value='F'>Feminino</option>
-                                            </>
-                                        ) : 
-                                        (
-                                            <></>
-                                        )
-                                        }                                        
-                                        
+                                        {campo.type == 'select' && campo.options && campo.options.map((opcao, index) => {
+                                            return <option key={`opcao-${index}`} value={opcao}>{opcao}</option>
+                                        })}                                                                                                                  
                                         {flagModulo && opcoes && opcoes[campo.name] && opcoes[campo.name].map((opcao, index) => {
                                             return <option key={`${campo.name}-${index}`} value={opcao}>{opcao}</option>
                                         })}

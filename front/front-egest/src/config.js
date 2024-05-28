@@ -134,9 +134,70 @@ const campos = (modulo) => {
                 "options": [],
                 "placeholder": 'funcionario',
                 "label": 'Funcionário',
-            }
-        ]
+            }]
         }
+        case 'infoempresa': {
+            return[{
+                "name": 'nome',
+                "type": 'text',
+                "placeholder": 'Nome',
+                "label": 'Nome da Empresa'
+            }]
+        }
+        case 'navbar': {
+            return [{
+                "name": 'tipo',
+                "type": 'select',
+                "options": ['link', 'button'],
+                "placeholder": 'tipo',
+                "label": 'Tipo',
+            },
+            {
+                "name": 'label',
+                "type": 'text',
+                "placeholder": 'label',
+                "label": 'Label',
+            },
+            {
+                "name": 'url',
+                "type": 'text',
+                "placeholder": 'url',
+                "label": 'URL (Apenas se for link)',
+            },            
+            {
+                "name": 'action',
+                "type": 'text',
+                "placeholder": 'action',
+                "label": 'Action (Apenas se for botão)',
+            }];
+        }
+        case 'nossos-servicos': {
+            return [{
+                "name": 'titulo',
+                "type": 'text',
+                "placeholder": 'Título',
+                "label": 'Título',
+            },
+            {
+                "name": 'descricao',
+                "type": 'text',
+                "placeholder": 'Descrição',
+                "label": 'Descrição',
+            },
+            {
+                "name": 'imagem',
+                "type": 'text',
+                "placeholder": 'Imagem',
+                "label": 'Imagem',
+            },
+            {
+                "name": 'preco',
+                "type": 'number',
+                "placeholder": 'Preço',
+                "label": 'Preço',
+            }];
+        }
+        
     }
 }
 

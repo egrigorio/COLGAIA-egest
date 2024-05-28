@@ -14,7 +14,7 @@ router.get('/area/:id?', async (req, res) => {
         res.status(200).send(area);
     } catch(error) {
         console.log(error)
-    }    
+    }
 });
 
 router.get('/area/filtro/nome', async (req, res) => {

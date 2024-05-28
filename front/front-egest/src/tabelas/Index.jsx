@@ -52,9 +52,9 @@ const Tabelas = () => {
                             {dados && dados.length > 0 && Object.keys(dados[0]).map(key => (
                                 camposEscondidos.includes(key) ? null : 
                                 <th key={key}>{trataCampos(trataCampos(key, 'm'), 'l')}</th>
-                            ))                        
-                            }
-                            {dados && dados.length < 0 && <th>Sem dados</th> }
+                            ))}
+                            
+                            {dados && dados.length < 0 && <th>Sem dados</th>}
                             <th>Editar</th>
                             <th>Remover</th>
                         </thead>
@@ -71,7 +71,7 @@ const Tabelas = () => {
                         </tbody>
                     </table>
                 </div>
-                    <a class="btn btn-ghost" href={modulo + "/adicionar/"}>Adicionar</a>
+                    <a className="btn btn-ghost" href={modulo + "/adicionar/"}>Adicionar</a>
             </div>
         </>
     );
