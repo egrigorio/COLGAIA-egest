@@ -68,12 +68,13 @@ const Busca = () => {
     }
 
     const ChangeOrdem = (e) => { /* muda consoante o radio, de novo, pra devolver resultados instantaneos */
-        const { id } = e.target;        
-        setOrdem(id);
+        console.log(e.target.value)
+        /* const { id } = e.target.value; */
+        setOrdem(e.target.value);
     };    
     //
     useEffect(() => {
-        console.log(ordem)
+        console.log(ordem)        
     }, [ordem]);
     return (
         <>
@@ -82,46 +83,21 @@ const Busca = () => {
                     <input onChange={ChangeBusca} type="text" className="grow" placeholder="Search" />
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 opacity-70"><path fillRule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clipRule="evenodd" /></svg>
                 </label>
+                Filtros: 
+                Ordenar por: <select onChange={ChangeOrdem} name="select-ordem" className="select select-bordered w-full max-w-xs">
+                <option value="">Selecione</option>
                 {filtrosModulo[modulo].map((filtro, index) => {
-                    return (                        
-                        <div className="form-control">
-                        <label className="label cursor-pointer">
-                            <span className="label-text">{filtro.label}</span>                             
-                            {filtro.type == 'number' ? 
-                                <div>
-                                    <div className="form-control">
-                                        <label className="label cursor-pointer">
-                                            <span className="label-text">Ascendente</span> 
-                                            <input 
-                                                type="radio" 
-                                                onChange={ChangeOrdem} 
-                                                id={filtro.name + "%asc"}
-                                                name={filtro.name}
-                                                className="radio checked:bg-red-500"  
-                                                
-                                            />
-                                        </label>
-                                        </div>
-                                        <div className="form-control">
-                                        <label className="label cursor-pointer">
-                                            <span className="label-text">Decrescente</span> 
-                                            <input 
-                                                type="radio" 
-                                                onChange={ChangeOrdem} 
-                                                id={filtro.name + "%desc"}
-                                                name={filtro.name} 
-                                                className="radio checked:bg-blue-500"  
-                                                
-                                            />
-                                            
-                                        </label>
-                                    </div>
-                                </div>
-                            : ''}
-                        </label>
-                        </div>
+                    return (                                                                                                                                                         
+                                filtro.type == 'number' ?
+                                    <>                                        
+                                        <option value={filtro.name + "%asc"}>{filtro.name} Ascendente</option>
+                                        <option value={filtro.name + "%desc"}>{filtro.name} Descendente</option>
+                                    </>
+                                :
+                                ''                                                                            
                     );
                 })}
+                </select>
             </div>
             <div>
                 {dados.map((dado, index) => {
