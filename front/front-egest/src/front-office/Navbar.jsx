@@ -30,9 +30,9 @@ const Navbar = () => {
 
     useEffect(()=>{
         if (nomeEmpresa) {
-           setTag(<a className="btn btn-ghost text-xl">{nomeEmpresa}</a>);
+           setTag(<a href="/fo" className="btn btn-ghost text-xl">{nomeEmpresa}</a>);
         } else {
-           setTag(<a className="btn btn-ghost text-xl">Nome da Empresa</a>);
+           setTag(<a href="/fo" className="btn btn-ghost text-xl">Nome da Empresa</a>);
         }
     },[nomeEmpresa]);
 

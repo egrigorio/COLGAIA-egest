@@ -5,6 +5,7 @@ import './output.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Swal from 'sweetalert2';
+import "tw-elements-react/dist/css/tw-elements-react.min.css";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
