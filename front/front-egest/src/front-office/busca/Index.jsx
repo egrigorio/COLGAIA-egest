@@ -127,7 +127,7 @@ const Busca = () => {
             <div>
                 {dados.map((dado, index) => {
                     return (
-                        <div key={index} className="card bordered w-full">
+                        <div key={index} className="card bordered w-full justify-center my-2">
                             <a href={window.location.href + "/" + dado[campoDiscriminador[modulo]]}>
                                 <div className="card-body">
                                     {Object.keys(dado).map((key, index) => {
