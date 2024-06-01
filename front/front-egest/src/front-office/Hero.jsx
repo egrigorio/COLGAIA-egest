@@ -5,9 +5,8 @@ const Hero = () => {
         <div className="hero">
             <div className="container">
                 <div className="row">
-                    <div className="col-lg-6">
-                        <h1>Egest</h1>
-                        <p>Uma aplicação de gestão de conteúdos</p>
+                    <div className="col-lg-6">                        
+                        
                     </div>
                 </div>
             </div>

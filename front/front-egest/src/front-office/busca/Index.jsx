@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import api from "../../api/api";
 import Navbar from "../Navbar";
 
+
 const Busca = () => {
 
     // tirar barra do final da pesquisa pra nn dar conflitos
@@ -17,19 +18,31 @@ const Busca = () => {
     const [dados, setDados] = useState([]);
     const [buscaInput, setBuscaInput] = useState('');
     const [filtros, setFiltros] = useState(); 
+    const [vista, setVista] = useState(1); /* 1 = lista, 2 = quadrados */
+
     const [ordem, setOrdem] = useState(); 
     const { modulo } = useParams();
     //
 
     // discriminações quanto ao modulo
-    const filtrosModulo = { /* filtros que aparecem consoante o módulo */
+    const ordemModulo = { /* filtros que aparecem consoante o módulo */
         'nossos-servicos': [{ 'name': 'preco', 'label': 'Preço', 'type': 'number' }, { 'name': 'titulo', 'label': 'Título', 'type': 'number' }],
         'funcionario': [{ 'name': 'nome', 'label': 'Nome', 'type': 'number' }, { 'name': 'dataNascimento', 'label': 'Data de Nascimento', 'type': 'number' }, { 'name': 'entradaEmpresa', 'label': 'Data de Entrada na Empresa', 'type': 'number' }, { 'name': 'salario', 'label': 'Salário', 'type': 'number'}],
     }
 
+    const filtrosModulo = { /* filtros que aparecem consoante o módulo */
+        'nossos-servicos': [{ 'name': 'preco', 'label': 'Preço', 'type': 'number' }],
+        'funcionario': [{ 'name': 'genero', 'label': 'Gênero', 'type': 'select', 'options': ['Masculino', 'Feminino', 'Outro'] }, { 'name': 'area', 'label': 'Área', 'type': 'select', 'options': ['Contábil', 'Financeiro', 'Recursos Humanos', 'Tecnologia da Informação']}, { 'name': 'salario', 'label': 'Salário', 'type': 'number'}]
+    }
+
     const campoDiscriminador = { /* const pra escolher qual o campo que vai pro location.href */
-        'nossos-servicos': 'titulo',
-        'funcionario': 'nome',
+        'nossos-servicos': '_id',
+        'funcionario': '_id',
+    }
+
+    const camposEscondidos = { /* campos que não aparecem na busca */
+        'nossos-servicos': ['_id', '__v'],
+        'funcionario': ['_id', '__v'],
     }
     //
     
@@ -42,25 +55,38 @@ const Busca = () => {
                     if(ordem) {
                         query = '?ordem=' + ordem;
                     }
+                    if(filtros) {                        
+                        for (let key in filtros) {
+                            query += '&' + key + '=' + filtros[key];
+                        }
+                    }                    
 
                     const response = await api.get(`/${modulo}/busca/${buscaInput}${query}`, { withCredentials: true });
-                    setDados(response.data);
-                    console.log(response)
+                    setDados(response.data);                    
                 } else {
                     let query = '';
                     if(ordem) {
                         query = '?ordem=' + ordem;
                     }
-                    const response = await api.get(`/${modulo}${query}`, { withCredentials: true });
-                    console.log(response)
+                    if(filtros) {                        
+                        console.log('aqui')
+                        for (let key in filtros) {
+                            if(query == '') {
+                                query += '?' + key + '=' + filtros[key];
+                            } else {
+                                query += '&' + key + '=' + filtros[key];
+                            }
+                        }
+                    }                    
+                    const response = await api.get(`/${modulo}${query}`, { withCredentials: true });                    
                     setDados(response.data);
                 }                
             } catch (error) {
                 console.log(error);
             }
-        }
+        }        
         buscarDados();
-    }, [buscaInput, filtros, ordem]);
+    }, [buscaInput, filtros, ordem, vista]);
     //
 
     // funções para mudar os estados
@@ -68,15 +94,29 @@ const Busca = () => {
         setBuscaInput(e.target.value);
     }
 
-    const ChangeOrdem = (e) => { /* muda consoante o radio, de novo, pra devolver resultados instantaneos */
-        console.log(e.target.value)
-        /* const { id } = e.target.value; */
+    const ChangeOrdem = (e) => { /* muda consoante o radio, de novo, pra devolver resultados instantaneos */                
         setOrdem(e.target.value);
     };    
-    //
-    useEffect(() => {
-        console.log(ordem)        
-    }, [ordem]);
+
+    const ChangeFiltro = (e) => { /* muda consoante o radio, de novo, pra devolver resultados instantaneos */
+        if(e.target.value != '') {
+            if(filtros) {
+                setFiltros({ ...filtros, [e.target.name]: e.target.value });
+            } else {
+                setFiltros({ [e.target.name]: e.target.value });
+            }
+        } else {
+            let newFiltros = filtros;
+            delete newFiltros[e.target.name];
+            setFiltros(newFiltros);
+        }
+    }
+
+    const mudarVista = (view) => {        
+        setVista(view);
+    }
+    //    
+        
     return (
         <>
             <Navbar />
@@ -109,40 +149,113 @@ const Busca = () => {
                     </div>
                 </div>
             </div>
-            Filtros: 
-            Ordenar por: <select onChange={ChangeOrdem} name="select-ordem" className="select select-bordered w-full max-w-xs">
-            <option value="">Selecione</option>
-            {filtrosModulo[modulo].map((filtro, index) => {
-                return (                                                                                                                                                         
-                            filtro.type == 'number' ?
-                                <>                                        
-                                    <option value={filtro.name + "%asc"}>{filtro.name} Ascendente</option>
-                                    <option value={filtro.name + "%desc"}>{filtro.name} Descendente</option>
-                                </>
-                            :
-                            ''                                                                            
-                );
-            })}
-            </select>
-            <div>
-                {dados.map((dado, index) => {
-                    return (
-                        <div key={index} className="card bordered w-full justify-center my-2">
-                            <a href={window.location.href + "/" + dado[campoDiscriminador[modulo]]}>
-                                <div className="card-body">
-                                    {Object.keys(dado).map((key, index) => {
-                                        return (
-                                            <div key={index} className="flex gap-2">
-                                                <span className="font-bold">{key}</span>
-                                                <span>{dado[key]}</span>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            </a>
+            <div className="p-8">
+                <div className="card bg-blue-200 p-14">
+                    <div className="text text-xl font-bold mb-4 text-center">Filtros</div>
+                
+                    <div className="flex flex-col gap-1">
+                        <div className="flex flex-row gap-4">
+                            <label className="label">
+                                <span className="label-text">Ordenar por:</span>
+                            </label>
+                            <select onChange={ChangeOrdem} name="select-ordem" className="select select-bordered w-full max-w-xs">
+                            <option value="">Selecione</option>
+                            {ordemModulo[modulo].map((filtro, index) => {
+                                return (
+                                            filtro.type == 'number' ?
+                                                <>
+                                                    <option value={filtro.name + "%asc"}>{filtro.name} Ascendente</option>
+                                                    <option value={filtro.name + "%desc"}>{filtro.name} Descendente</option>
+                                                </>
+                                            :
+                                            ''
+                                );
+                            })}
+                            </select>
                         </div>
-                    );
-                })}
+                        <br />
+                        <div className="flex flex-row gap-4">
+                            {filtrosModulo[modulo].map((filtro, index) => {
+                                return (
+                                    <>
+                                        <label className="label">
+                                            <span className="label-text">{filtro.label}</span>
+                                        </label>
+                                        {filtro.type == 'number' ?
+                                            <input onChange={ChangeFiltro} name={filtro.name} type="number" className="input input-bordered" />
+                                            :
+                                            <select onChange={ChangeFiltro} name={filtro.name} className="select select-bordered w-full max-w-xs">
+                                                <option value="">Selecione</option>
+                                                {filtro.options.map((option, index) => {
+                                                    return (
+                                                        <option key={index} value={option}>{option}</option>
+                                                    );
+                                                })}
+                                            </select>
+                                        }
+                                    </>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div className="card">
+                    <div className="text text-xl font-bold mt-4 text-center">Resultados</div>
+                    <div className="flex justify-center gap-4">
+                        <span><span onClick={() => mudarVista(1)}><img className="max-w-6 cursor-pointer" src="https://cdn2.iconfinder.com/data/icons/ui-minimalist-0-1-1/16/UI_Web_Grid_Sort_Size_Sort_By_List-512.png" /></span></span> <span><span onClick={() => mudarVista(2)}><img className="max-w-6 cursor-pointer" src="https://icons.veryicon.com/png/o/miscellaneous/template-four/grid-15.png" /></span></span>                        
+                    </div>
+                    <div className={"p-8 " + (vista == 2 ? 'grid grid-cols-3 gap-4' : '')}>                        
+                        {dados.map((dado, index) => {
+                            switch(vista) {
+                                case 1: {
+                                    return (
+                                        <div key={index} className="card bordered w-full justify-center my-2">
+                                            <a href={window.location.href + "/" + dado[campoDiscriminador[modulo]]}>
+                                                <div className="card-body">
+                                                    {Object.keys(dado).map((key, index) => {
+                                                        if (camposEscondidos[modulo].includes(key)) {
+                                                            return null;
+                                                        }                                                        
+                                                        return (
+                                                            <div key={index} className="flex gap-2">
+                                                                <span className="font-bold">{key}</span>
+                                                                <span>{dado[key]}</span>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                            </a>
+                                        </div>
+                                    );
+                                }
+                                case 2: {
+                                    return (
+                                        <div key={index} className="card bordered w-full justify-center my-2">
+                                            <a href={window.location.href + "/" + dado[campoDiscriminador[modulo]]}>
+                                                <div className="card-body">
+                                                    {Object.keys(dado).map((key, index) => {
+                                                        if (camposEscondidos[modulo].includes(key)) {
+                                                            return null;
+                                                        }
+                                                        return (
+                                                            <div key={index} className="flex gap-2">
+                                                                <span className="font-bold">{key}</span>
+                                                                <span>{dado[key]}</span>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                            </a>
+                                        </div>
+                                    );
+                                }
+                            }
+                            
+                        })}
+                    </div>
+                </div>
             </div>
         </>
     );

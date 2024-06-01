@@ -40,42 +40,6 @@ app.use('/api', auth, InfoEmpresa);
 app.use('/api', auth, Navbar);
 app.use('/api', auth, NossosServicos);
 
-/* rotas genéricas */
-
-/* app.get('/api/:collection/busca/:busca?', async (req, res) => {
-  
-  const collection = req.params.collection;
-  const busca = req.params.busca;
-  const model = models[collection];
-  console.log(busca)
-  if(!model) {
-    return res.status(404).send('Coleção não encontrada');
-  }  
-
-  if(busca == undefined) {    
-    try {
-      const data = await model.find();
-      res.status(200).send(data);      
-    } catch (error) {
-      console.log(error)
-      res.status(400).send('Erro ao buscar dados');
-    }
-  }
-  try {
-    
-    console.log(await NossosServicosModel.collection.getIndexes());
-    const data = await model.find({ $text: { $search: busca } });
-    const regex = new RegExp(busca, 'i'); // 'i' faz a busca ser case-insensitive
-    const data = await model.find({ titulo: regex });
-    console.log(data)
-    res.status(200).send(data);
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-}); */
-
-
 
 const PORT = process.env.PORT || 9081;
 app.listen(PORT, () => {

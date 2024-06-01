@@ -76,6 +76,7 @@ router.get('/funcionario/:id?', async (req, res) => {
             let query = {};
             let sort = {};            
             for (let key in req.query) {
+                
                 if (key === 'ordem') {
                     let parts = req.query[key].split('%');
                     if (parts.length === 2) {
@@ -83,8 +84,8 @@ router.get('/funcionario/:id?', async (req, res) => {
                         let order = parts[1] === 'asc' ? 1 : -1;
                         sort[field] = order;
                     }
-                } else if (req.query[key] === 'true') {
-                    query[key] = { $exists: true };
+                } else {
+                    query[key] = req.query[key];
                 }
                 
             }
@@ -113,10 +114,12 @@ router.get('/funcionario/busca/:busca', async (req, res) => {
     const busca = req.params.busca;
     
     if(Object.keys(req.query).length > 0) {
+        
         try {
             let query = {};
             let sort = {};                     
             for (let key in req.query) {
+                
                 if (key === 'ordem') {
                     let parts = req.query[key].split('%');
                     if (parts.length === 2) {
@@ -124,8 +127,8 @@ router.get('/funcionario/busca/:busca', async (req, res) => {
                         let order = parts[1] === 'asc' ? 1 : -1;
                         sort[field] = order;
                     }
-                } else if (req.query[key] === 'true') {
-                    query[key] = { $exists: true };
+                } else {
+                    query[key] = req.query[key];
                 }
                 
             }

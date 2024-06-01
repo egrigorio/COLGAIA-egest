@@ -43,7 +43,7 @@ const Navbar = () => {
             </div>
             <div className="flex-none">
                 <ul className="menu menu-horizontal px-1">
-                    {items && items.map(item => {                        
+                    {/* {items && items.map(item => {                        
                         switch (item.tipo) {
                             case 'link':
                                 return <li key={item.label}><a href={item.url}>{item.label}</a></li>;
@@ -52,7 +52,7 @@ const Navbar = () => {
                             default:
                                 return null;
                         }
-                    })}
+                    })} */}
                     <li key="Serviços"><a href="/fo/nossos-servicos">Serviços</a></li>
                     <li key="Funcionários"><a href="/fo/funcionario">Funcionários</a></li>
                     <li key="Login"><a href="/adm/login">Login</a></li>

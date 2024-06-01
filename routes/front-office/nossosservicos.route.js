@@ -29,8 +29,8 @@ router.get('/nossos-servicos/:id?', async (req, res) => {
                         let order = parts[1] === 'asc' ? 1 : -1;
                         sort[field] = order;
                     }
-                } else if (req.query[key] === 'true') {
-                    query[key] = { $exists: true };
+                } else {
+                    query[key] = req.query[key];
                 }
                 
             }
@@ -64,6 +64,7 @@ router.get('/nossos-servicos/busca/:busca', async (req, res) => {
             let query = {};
             let sort = {};                     
             for (let key in req.query) {
+                console.log(key)
                 if (key === 'ordem') {
                     let parts = req.query[key].split('%');
                     if (parts.length === 2) {
@@ -71,8 +72,8 @@ router.get('/nossos-servicos/busca/:busca', async (req, res) => {
                         let order = parts[1] === 'asc' ? 1 : -1;
                         sort[field] = order;
                     }
-                } else if (req.query[key] === 'true') {
-                    query[key] = { $exists: true };
+                } else {
+                    query[key] = req.query[key];
                 }
                 
             }

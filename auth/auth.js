@@ -9,10 +9,10 @@ const auth = (req, res, next) => {
         if(user) {
             return next();
         } else {
-            return res.status(401).send('não autorizado');
+            return res.status(401).send('não autorizadoas');
         }
     } else {
-        return res.status(401).send('não autorizado');
+        return res.status(401).send('não autorizadobolas');
     }
 }
 
