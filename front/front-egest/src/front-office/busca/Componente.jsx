@@ -7,7 +7,7 @@ const Componente = () => {
     const { modulo, componente } = useParams();
     const [infoComponente, setInfoComponente] = useState([]);
 
-    const camposEscondidos = ['_id', '__v'];
+    const camposEscondidos = ['_id', '__v', 'nome', 'imagem', 'titulo'];
     
     useEffect(() => {
         const BuscarInfoComponente = async () => {
@@ -30,19 +30,57 @@ const Componente = () => {
     return (
         <>
         <Navbar/>
-            <div className="container mx-auto">
-                <h1>Componente</h1>
-            </div>
             {
-                Array.isArray(infoComponente) && infoComponente.map((item, index) => {
-                    return (
-                        <div key={index}>
-                            {Object.keys(item).map(key => (
-                                camposEscondidos.includes(key) ? null : <p key={key}><strong>{key}:</strong> {item[key]}</p>                                
-                            ))}
-                        </div>
-                    );
-                })
+                Array.isArray(infoComponente) && modulo!="nossos-servicos" ? (
+                    <div>
+                        {
+                            infoComponente.map((componente, index) => (
+                                <div key={index}>
+                                    <h1 className="text-center mt-2 font-bold text-2xl">{componente.nome}</h1>
+                                    <table className="mt-4 table-auto mx-auto">
+                                        <tbody>
+                                            {
+                                                Object.keys(componente).map((key, index) => (
+                                                    camposEscondidos.includes(key) ? null : (
+                                                        <tr key={index}>
+                                                            <td className="pr-2 font-bold">{key}</td>
+                                                            <td className="pl-2"> {componente[key]}</td>
+                                                        </tr>
+                                                    )
+                                                ))
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            ))
+                        }
+                    </div>
+                ) : (
+                    <div>
+                        {
+                            infoComponente.map((componente, index) => (
+                                <div key={index}>
+                                    <h1 className="text-center mt-2 font-bold text-2xl">{componente.titulo}</h1>
+                                    <table className="mt-4 table-auto mx-auto">
+                                        <tbody>
+                                            {
+                                                Object.keys(componente).map((key, index) => (
+                                                    camposEscondidos.includes(key) ? null : (
+                                                        <tr key={index}>
+                                                            <td className="pr-2 font-bold">{key}</td>
+                                                            <td className="pl-2"> {componente[key]}</td>
+                                                        </tr>
+                                                    )
+                                                ))
+                                            }
+                                        </tbody>
+                                    </table>
+                                    <img src={`/fo/upload/${componente.imagem}`} alt={`${componente.imagem}`} />
+                                </div>
+                            ))
+                        }
+                    </div>
+                )
             }
         </>
     );
