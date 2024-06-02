@@ -75,7 +75,9 @@ const Componente = () => {
                                             }
                                         </tbody>
                                     </table>
-                                    <img src={`/fo/upload/${componente.imagem}`} alt={`${componente.imagem}`} />
+                                    <div className="flex justify-center">
+                                        <img src={`${process.env.PUBLIC_URL}/${componente.imagem}`} alt={`${componente.imagem}`} style={{ height: "200px" }} />
+                                    </div>
                                 </div>
                             ))
                         }

@@ -5,9 +5,8 @@ const Index = () => {
     return (
         <>
             <Navbar />
-            <Hero />
-            <div>
-                
+            <div style={{ height: "100vh" }} className="bg-neutral-content">
+                <Hero />
             </div>
         </>
     );

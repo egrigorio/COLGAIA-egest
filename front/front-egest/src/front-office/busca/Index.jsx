@@ -39,10 +39,15 @@ const Busca = () => {
         'nossos-servicos': '_id',
         'funcionario': '_id',
     }
+    
+    const headerDiscriminator={
+        'nossos-servicos': 'titulo',
+        'funcionario': 'nome',
+    }
 
     const camposEscondidos = { /* campos que não aparecem na busca */
-        'nossos-servicos': ['_id', '__v'],
-        'funcionario': ['_id', '__v'],
+        'nossos-servicos': ['_id', '__v', 'titulo', 'imagem'],
+        'funcionario': ['_id', '__v', 'nome'],
     }
     //
     
@@ -150,7 +155,7 @@ const Busca = () => {
                 </div>
             </div>
             <div className="p-8">
-                <div className="card bg-blue-200 p-14">
+                <div className="card bg-neutral-content p-14">
                     <div className="text text-xl font-bold mb-4 text-center">Filtros</div>
                 
                     <div className="flex flex-col gap-1">
@@ -211,13 +216,23 @@ const Busca = () => {
                             switch(vista) {
                                 case 1: {
                                     return (
-                                        <div key={index} className="card bordered w-full justify-center my-2">
-                                            <a href={window.location.href + "/" + dado[campoDiscriminador[modulo]]}>
+                                        <a href={window.location.href + "/" + dado[campoDiscriminador[modulo]]}>
+                                            <div className="justify-center my-4 w-full card lg:card-side bg-base-100 shadow-xl">
+                                                {modulo === "nossos-servicos" ? (
+                                                    <figure>
+                                                        <img
+                                                            src={`${process.env.PUBLIC_URL}/${dado.imagem}`}
+                                                            style={{ maxHeight: "150px" }}
+                                                            alt="Album"
+                                                        />
+                                                    </figure>
+                                                ) : null}
                                                 <div className="card-body">
+                                                    <h2 className="card-title">{dado[headerDiscriminator[modulo]]}</h2>
                                                     {Object.keys(dado).map((key, index) => {
                                                         if (camposEscondidos[modulo].includes(key)) {
                                                             return null;
-                                                        }                                                        
+                                                        }
                                                         return (
                                                             <div key={index} className="flex gap-2">
                                                                 <span className="font-bold">{key}</span>
@@ -225,16 +240,20 @@ const Busca = () => {
                                                             </div>
                                                         );
                                                     })}
+                                                    <div className="card-actions justify-end">
+                                                        <button className="btn btn-neutral text-white">Ver em Detalhe</button>
+                                                    </div>
                                                 </div>
-                                            </a>
-                                        </div>
+                                            </div>
+                                        </a>
                                     );
                                 }
                                 case 2: {
                                     return (
-                                        <div key={index} className="card bordered w-full justify-center my-2">
+                                        <div key={index} className="shadow-xl card bordered w-full justify-center my-2">
                                             <a href={window.location.href + "/" + dado[campoDiscriminador[modulo]]}>
                                                 <div className="card-body">
+                                                <h2 className="card-title">{dado[headerDiscriminator[modulo]]}</h2>
                                                     {Object.keys(dado).map((key, index) => {
                                                         if (camposEscondidos[modulo].includes(key)) {
                                                             return null;
